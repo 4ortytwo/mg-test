@@ -17,7 +17,6 @@ function usePagination(data, itemsPerPage: number) {
   }, [data, currentPage, itemsPerPage]);
 
   function next() {
-    console.log("IN NEXT");
     if (drivers.length < currentPage * itemsPerPage) {
       dispatch(
         fetchDrivers(

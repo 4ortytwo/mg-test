@@ -50,7 +50,6 @@ export const fetchRaces = (): AppThunk => async (dispatch, getState) => {
   try {
     const { races } = getState();
     const { data } = await axios.get("http://ergast.com/api/f1/current.json");
-    console.log("DATA", data);
     dispatch(
       fetchRacesSuccess([
         ...races.races.slice(),
