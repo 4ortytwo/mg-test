@@ -5,16 +5,17 @@ import {
   View,
   StyleSheet,
   FlatList,
+  Text,
 } from "react-native";
 import React, { useEffect, useMemo } from "react";
 import { Table, Row } from "react-native-table-component";
 
 import { RootState } from "../../redux/store";
 import { NavProps } from "../../ParamList";
-import { Driver } from "../../@types/RaceAPI";
+import { Driver } from "../../@types/ErgastAPI";
 import usePagination from "../../hooks/usePagination";
 
-import { fetchDrivers } from "./driversSlice";
+import { fetchDrivers } from "./driversActions";
 
 const styles = StyleSheet.create({
   HeadStyle: {
@@ -38,9 +39,9 @@ const testTable = {
 const Drivers = ({ navigation }: DriversProps) => {
   const itemsPerPage = 15;
   const dispatch = useDispatch();
+  const error = useSelector((state: RootState) => state.drivers.error);
   const loading = useSelector((state: RootState) => state.drivers.loading);
   const drivers = useSelector((state: RootState) => state.drivers.drivers);
-
   useEffect(() => {
     if (!drivers.length) {
       dispatch(fetchDrivers(itemsPerPage.toString()));
@@ -80,6 +81,7 @@ const Drivers = ({ navigation }: DriversProps) => {
             data={testTable.HeadTable}
             style={styles.HeadStyle}
             textStyle={styles.TableText}
+            borderStyle={{ borderWidth: 1, borderColor: "#ffa1d2" }}
           />
           <View>
             {loading && <ActivityIndicator size="large" />}
@@ -98,6 +100,7 @@ const Drivers = ({ navigation }: DriversProps) => {
               onEndReached={next}
               onEndReachedThreshold={0}
             />
+            {error && <Text>Sorry. Drivers could not be fetched.</Text>}
           </View>
         </Table>
       </View>

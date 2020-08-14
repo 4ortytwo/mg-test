@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TouchableOpacity, Text, Alert } from "react-native";
-import { useDispatch } from "react-redux";
 
 import { persistor } from "../../redux/store";
 import { ParamList } from "../../ParamList";
@@ -14,7 +13,6 @@ interface DriversStackProps {}
 const Stack = createStackNavigator<ParamList>();
 
 export const DriversStack: React.FC<DriversStackProps> = ({}) => {
-  const dispatch = useDispatch();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -42,7 +40,9 @@ export const DriversStack: React.FC<DriversStackProps> = ({}) => {
           headerRight: () => {
             return (
               <TouchableOpacity
-                onPress={() => Alert.alert("Ok, нажали, значит...", "🤓")}
+                onPress={() =>
+                  Alert.alert("За годный фидбек спасибо большое", "🤓")
+                }
               >
                 <Text>HI MESH GROUP ❤️</Text>
               </TouchableOpacity>
