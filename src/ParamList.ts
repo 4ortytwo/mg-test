@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-import { Driver } from "./@types/RaceAPI";
+import { Driver } from "./@types/ErgastAPI";
 
 export type ParamList = {
   Drivers: undefined;
