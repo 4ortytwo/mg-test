@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchDrivers } from "../features/drivers/driversSlice";
+import { fetchDrivers } from "../features/drivers/driversActions";
 import { RootState } from "../redux/store";
 
 function usePagination(data, itemsPerPage: number) {
@@ -12,7 +12,6 @@ function usePagination(data, itemsPerPage: number) {
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-
     return data.slice(null, end);
   }, [data, currentPage, itemsPerPage]);
 
@@ -26,7 +25,7 @@ function usePagination(data, itemsPerPage: number) {
       );
     }
 
-    setCurrentPage((currentPage) => Math.min(currentPage + 1));
+    setCurrentPage((currentPage) => currentPage + 1);
   }
 
   return { next, paginatedData, currentPage };
