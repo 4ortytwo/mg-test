@@ -14,7 +14,6 @@
     "@react-navigation/bottom-tabs": "^5.8.0",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
-    "@reduxjs/toolkit": "^1.4.0",
     "axios": "^0.19.2",
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
@@ -26,6 +25,7 @@
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0"
   },
