@@ -1,18 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ScrollView, View, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  Text,
+} from "react-native";
 import React, { useEffect } from "react";
 import { Table, Row } from "react-native-table-component";
 
 import { RootState } from "../../redux/store";
 import { NavProps } from "../../ParamList";
 
-import { fetchRaces } from "./racesSlice";
+import { fetchRaces } from "./racesActions";
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   header: { height: 50, backgroundColor: "#ffe0f0" },
   text: { textAlign: "center", fontWeight: "300" },
-  dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: "#f5f1f3" },
 });
 
@@ -34,6 +40,7 @@ const tableUtil = {
 
 const Races = ({ navigation }: RacesProps) => {
   const dispatch = useDispatch();
+  const error = useSelector((state: RootState) => state.races.error);
   const loading = useSelector((state: RootState) => state.races.loading);
   const races = useSelector((state: RootState) => state.races.races);
 
@@ -74,10 +81,13 @@ const Races = ({ navigation }: RacesProps) => {
               textStyle={styles.text}
             />
           </Table>
-          <ScrollView style={styles.dataWrapper}>
-            {loading && <ActivityIndicator size="large" />}
-            <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
-              {flatRaces.map((item, index) => (
+          {loading && <ActivityIndicator size="large" />}
+          {error && <Text>Sorry. Races could not be fetched.</Text>}
+          <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
+            <FlatList
+              data={flatRaces}
+              keyExtractor={(item, index) => `${item.race.name}-${index}`}
+              renderItem={({ item, index }) => (
                 <Row
                   key={index}
                   data={item.row}
@@ -86,11 +96,12 @@ const Races = ({ navigation }: RacesProps) => {
                     styles.row,
                     index % 2 && { backgroundColor: "#f8dee6" },
                   ]}
+                  borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
                   textStyle={styles.text}
                 />
-              ))}
-            </Table>
-          </ScrollView>
+              )}
+            />
+          </Table>
         </View>
       </ScrollView>
     </View>
