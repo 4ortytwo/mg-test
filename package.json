@@ -41,6 +41,7 @@
     "eslint": "^7.6.0",
     "eslint-config-react-native-wcandillon": "^3.3.3",
     "jest": "~25.2.6",
+    "metro-react-native-babel-preset": "^0.62.0",
     "react-test-renderer": "~16.11.0",
     "typescript": "~3.9.5"
   },

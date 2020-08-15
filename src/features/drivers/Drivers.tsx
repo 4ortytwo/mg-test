@@ -87,25 +87,23 @@ const Drivers = ({ navigation }: DriversProps) => {
         />
         <View>
           {loading && <ActivityIndicator size="large" />}
-          {error && <Text>Sorry. Drivers could not be fetched.</Text>}
-          {paginatedData?.length && (
-            <FlatList
-              style={{ marginBottom: 40 }}
-              data={paginatedData}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => openDriver(item.driver)}>
-                  <Row
-                    data={item.row}
-                    textStyle={styles.TableText}
-                    borderStyle={{ borderWidth: 1, borderColor: "#ffa1d2" }}
-                  />
-                </TouchableOpacity>
-              )}
-              keyExtractor={(item, index) => `${item.driver.driverId}-${index}`}
-              onEndReached={next}
-              onEndReachedThreshold={isAndroid ? 0.5 : 0}
-            />
-          )}
+          {error && <Text>Sorry. Drivers could not be fetched. {error}</Text>}
+          <FlatList
+            style={{ marginBottom: 40 }}
+            data={paginatedData}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => openDriver(item.driver)}>
+                <Row
+                  data={item.row}
+                  textStyle={styles.TableText}
+                  borderStyle={{ borderWidth: 1, borderColor: "#ffa1d2" }}
+                />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => `${item.driver.driverId}-${index}`}
+            onEndReached={next}
+            onEndReachedThreshold={isAndroid ? 0.5 : 0}
+          />
         </View>
       </Table>
     </View>

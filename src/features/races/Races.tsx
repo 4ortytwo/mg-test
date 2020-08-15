@@ -91,28 +91,26 @@ const Races = ({ navigation }: RacesProps) => {
           </TableWrapper>
 
           {loading && <ActivityIndicator size="large" />}
-          {error && <Text>Sorry. Races could not be fetched.</Text>}
+          {error && <Text>Sorry. Races could not be fetched. {error}</Text>}
           <TableWrapper>
             <Table>
-              {flatRaces?.length && (
-                <FlatList
-                  data={flatRaces}
-                  keyExtractor={(item, index) => `${item.race.name}-${index}`}
-                  renderItem={({ item, index }) => (
-                    <Row
-                      key={index}
-                      data={item.row}
-                      widthArr={tableUtil.widthArr}
-                      style={[
-                        styles.row,
-                        index % 2 && { backgroundColor: "#f8dee6" },
-                      ]}
-                      borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
-                      textStyle={styles.text}
-                    />
-                  )}
-                />
-              )}
+              <FlatList
+                data={flatRaces}
+                keyExtractor={(item, index) => `${item.race.name}-${index}`}
+                renderItem={({ item, index }) => (
+                  <Row
+                    key={index}
+                    data={item.row}
+                    widthArr={tableUtil.widthArr}
+                    style={[
+                      styles.row,
+                      index % 2 && { backgroundColor: "#f8dee6" },
+                    ]}
+                    borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
+                    textStyle={styles.text}
+                  />
+                )}
+              />
             </Table>
           </TableWrapper>
         </View>
