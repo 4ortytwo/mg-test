@@ -6,9 +6,11 @@ import {
   StyleSheet,
   FlatList,
   Text,
+  Platform,
 } from "react-native";
 import React, { useEffect, useMemo } from "react";
-import { Table, Row } from "react-native-table-component";
+import { TableWrapper, Table, Row } from "react-native-table-component";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RootState } from "../../redux/store";
 import { NavProps } from "../../ParamList";
@@ -37,7 +39,8 @@ const testTable = {
 };
 
 const Drivers = ({ navigation }: DriversProps) => {
-  const itemsPerPage = 15;
+  const isAndroid = Platform.OS === "android";
+  const itemsPerPage = 20;
   const dispatch = useDispatch();
   const error = useSelector((state: RootState) => state.drivers.error);
   const loading = useSelector((state: RootState) => state.drivers.loading);
@@ -75,17 +78,19 @@ const Drivers = ({ navigation }: DriversProps) => {
 
   return (
     <View>
-      <View>
-        <Table>
-          <Row
-            data={testTable.HeadTable}
-            style={styles.HeadStyle}
-            textStyle={styles.TableText}
-            borderStyle={{ borderWidth: 1, borderColor: "#ffa1d2" }}
-          />
-          <View>
-            {loading && <ActivityIndicator size="large" />}
+      <Table>
+        <Row
+          data={testTable.HeadTable}
+          style={styles.HeadStyle}
+          textStyle={styles.TableText}
+          borderStyle={{ borderWidth: 1, borderColor: "#ffa1d2" }}
+        />
+        <View>
+          {loading && <ActivityIndicator size="large" />}
+          {error && <Text>Sorry. Drivers could not be fetched.</Text>}
+          {paginatedData?.length && (
             <FlatList
+              style={{ marginBottom: 40 }}
               data={paginatedData}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => openDriver(item.driver)}>
@@ -98,12 +103,11 @@ const Drivers = ({ navigation }: DriversProps) => {
               )}
               keyExtractor={(item, index) => `${item.driver.driverId}-${index}`}
               onEndReached={next}
-              onEndReachedThreshold={0}
+              onEndReachedThreshold={isAndroid ? 0.5 : 0}
             />
-            {error && <Text>Sorry. Drivers could not be fetched.</Text>}
-          </View>
-        </Table>
-      </View>
+          )}
+        </View>
+      </Table>
     </View>
   );
 };

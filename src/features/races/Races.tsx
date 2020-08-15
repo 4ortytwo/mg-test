@@ -8,10 +8,11 @@ import {
   Text,
 } from "react-native";
 import React, { useEffect } from "react";
-import { Table, Row } from "react-native-table-component";
+import { TableWrapper, Table, Row } from "react-native-table-component";
 
 import { RootState } from "../../redux/store";
 import { NavProps } from "../../ParamList";
+import { Race } from "../../@types/ErgastAPI";
 
 import { fetchRaces } from "./racesActions";
 
@@ -50,7 +51,10 @@ const Races = ({ navigation }: RacesProps) => {
     }
   }, []);
 
-  const flatRaces = races?.reduce((acc, current) => {
+  const flatRaces: {
+    race: Race;
+    row: string[];
+  }[] = races?.reduce((acc, current) => {
     return [
       ...acc,
       {
@@ -73,35 +77,44 @@ const Races = ({ navigation }: RacesProps) => {
     <View style={styles.container}>
       <ScrollView horizontal={true}>
         <View>
-          <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
-            <Row
-              data={tableUtil.HeadTable}
-              widthArr={tableUtil.widthArr}
-              style={styles.header}
-              textStyle={styles.text}
-            />
-          </Table>
+          <TableWrapper
+            borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
+          >
+            <Table>
+              <Row
+                data={tableUtil.HeadTable}
+                widthArr={tableUtil.widthArr}
+                style={styles.header}
+                textStyle={styles.text}
+              />
+            </Table>
+          </TableWrapper>
+
           {loading && <ActivityIndicator size="large" />}
           {error && <Text>Sorry. Races could not be fetched.</Text>}
-          <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
-            <FlatList
-              data={flatRaces}
-              keyExtractor={(item, index) => `${item.race.name}-${index}`}
-              renderItem={({ item, index }) => (
-                <Row
-                  key={index}
-                  data={item.row}
-                  widthArr={tableUtil.widthArr}
-                  style={[
-                    styles.row,
-                    index % 2 && { backgroundColor: "#f8dee6" },
-                  ]}
-                  borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
-                  textStyle={styles.text}
+          <TableWrapper>
+            <Table>
+              {flatRaces?.length && (
+                <FlatList
+                  data={flatRaces}
+                  keyExtractor={(item, index) => `${item.race.name}-${index}`}
+                  renderItem={({ item, index }) => (
+                    <Row
+                      key={index}
+                      data={item.row}
+                      widthArr={tableUtil.widthArr}
+                      style={[
+                        styles.row,
+                        index % 2 && { backgroundColor: "#f8dee6" },
+                      ]}
+                      borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}
+                      textStyle={styles.text}
+                    />
+                  )}
                 />
               )}
-            />
-          </Table>
+            </Table>
+          </TableWrapper>
         </View>
       </ScrollView>
     </View>
