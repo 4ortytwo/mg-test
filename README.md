@@ -9,8 +9,12 @@ yarn
 ## Usage
 
 ```console
-expo start
+cd android && ./gradlew bundleRelease
+..
+npx react-native run-android --variant=release
 ```
+
+An APK file will be built and stored in `mg-test/android/app/build/outputs/apk/release`
 
 ## Highlights
 - Architecture: 
