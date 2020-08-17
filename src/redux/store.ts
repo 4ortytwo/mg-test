@@ -1,10 +1,4 @@
-import {
-  Action,
-  applyMiddleware,
-  combineReducers,
-  compose,
-  createStore,
-} from "redux";
+import { Action, applyMiddleware, combineReducers, createStore } from "redux";
 import thunk, { ThunkAction } from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -25,7 +19,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const middleware = compose(applyMiddleware(thunk));
+const middleware = applyMiddleware(thunk);
 
 const store = createStore(persistedReducer, middleware);
 
