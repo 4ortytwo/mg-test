@@ -1,7 +1,7 @@
-import axios from "axios";
-
 import { Driver } from "../../@types/ErgastAPI";
 import { AppThunk } from "../../redux/store";
+
+import { getDrivers } from "./api";
 
 export const FETCH_DRIVERS_REQUEST = "FETCH_DRIVERS_REQUEST";
 export const FETCH_DRIVERS_SUCCESS = "FETCH_DRIVERS_SUCCESS";
@@ -25,12 +25,8 @@ export const fetchDrivers = (
 ): AppThunk => async (dispatch) => {
   dispatch(fetchDriversRequest());
   try {
-    const { data } = await axios.get(
-      `http://ergast.com/api/f1/drivers.json?limit=${limit}${
-        offset ? `&offset=${offset}` : ""
-      }`
-    );
-    dispatch(fetchDriversSuccess(data.MRData.DriverTable.Drivers));
+    const drivers = await getDrivers(limit, offset);
+    dispatch(fetchDriversSuccess(drivers));
   } catch (e) {
     dispatch(fetchDriversFailure(e.message));
   }

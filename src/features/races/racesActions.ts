@@ -1,7 +1,7 @@
-import axios from "axios";
-
 import { Race } from "../../@types/ErgastAPI";
 import { AppThunk } from "../../redux/store";
+
+import { getRaces } from "./api";
 
 export const FETCH_RACES_REQUEST = "FETCH_RACES_REQUEST";
 export const FETCH_RACES_SUCCESS = "FETCH_RACES_SUCCESS";
@@ -22,8 +22,8 @@ export const fetchRacesFailure = (payload: unknown) => ({
 export const fetchRaces = (): AppThunk => async (dispatch, getState) => {
   dispatch(fetchRacesRequest());
   try {
-    const { data } = await axios.get("http://ergast.com/api/f1/current.json");
-    dispatch(fetchRacesSuccess(data.MRData.RaceTable.Races));
+    const races = await getRaces();
+    dispatch(fetchRacesSuccess(races));
   } catch (e) {
     dispatch(fetchRacesFailure(e.message));
   }
